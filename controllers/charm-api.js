@@ -1,31 +1,21 @@
-var rp = require('request-promise');
-var fhir = require('./fhir-api.js');
-var async = require('async');
-var Q = require('q');
+var fhir = require('fhir-node');
 
 module.exports = function(req, res){
-	var start = 123;
-	var end = 456;
-	var calls = [];
+
+	var params = {
+		pages: 'a8b12fa1-fc96-40e6-9159-8a51b3185dc7',
+		start: 41,
+		end: 138,
+		format: 'json'
+	};
 	
-	for (var i=start;i<end;i+=50){
-		if (i+50>end){
-			var count = end-i;
-			calls.push(fhir(i, count));
-		} else {
-			calls.push(fhir(i, 50));
-		}
-	}
-	
-	var api = Q.all(calls);
-	
-	api.then(function(data){
-		var patients = [];
-		for (var i=0;i<data.length;i++){
-			for (var e=0;e<data[i].entry.length;e++){
-				patients.push(data[i].entry[e]);
-			}
-		}
-		res.json(patients);
+	// for a promise
+	fhir(params).then(function(records){
+		res.json(records);
 	});
+	
+	// for a callback
+	// fhir(params, function(records){
+	// 	res.json(records);
+	// });
 };
