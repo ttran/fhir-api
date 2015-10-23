@@ -3,19 +3,21 @@ var fhir = require('./fhir-api.js');
 var async = require('async');
 var Q = require('q');
 
-module.exports = function(req, res, next){
-	var api = Q.all([
-    fhir(0),
-    fhir(50),
-	fhir(100),
-	fhir(150),
-	fhir(200),
-	fhir(250),
-	fhir(300),
-	fhir(350),
-	fhir(400),
-	fhir(450)
-	]);
+module.exports = function(req, res){
+	var start = 123;
+	var end = 456;
+	var calls = [];
+	
+	for (var i=start;i<end;i+=50){
+		if (i+50>end){
+			var count = end-i;
+			calls.push(fhir(i, count));
+		} else {
+			calls.push(fhir(i, 50));
+		}
+	}
+	
+	var api = Q.all(calls);
 	
 	api.then(function(data){
 		var patients = [];
