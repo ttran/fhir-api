@@ -27,7 +27,3 @@ module.exports = function(req, res, next){
 		res.json(patients);
 	});
 };
-
-function call(offset){
-	return 'http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base?_getpages=4d9c3635-373a-472b-8a9a-3cb14c90efec&_getpagesoffset='+offset+'&_count=50&_format=json&_pretty=true';
-}
