@@ -3,9 +3,9 @@ var fhir = require('fhir-node');
 module.exports = function(req, res){
 
 	var params = {
-		pages: 'a8b12fa1-fc96-40e6-9159-8a51b3185dc7',
-		start: 41,
-		end: 138,
+		pages: '844d2445-ddb9-4af5-89f2-f22d744e9c7a',
+		start: 0,
+		end: 500,
 		format: 'json'
 	};
 	
