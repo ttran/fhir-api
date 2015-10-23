@@ -1,13 +1,17 @@
 var rp = require('request-promise');
+var Q = require('q');
 
-exports.getInfo = function(req, res, next){
-
-	var offset = 0;
-	var url = 'http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base?_getpages=4a0dddce-30f3-4c84-8437-466be9287250&_getpagesoffset='+offset+'&_count=50&_format=json&_pretty=true';
-	rp(url).then(function(res1){
-		
-	var json1 = JSON.parse(res1);
-		console.log(json1);
-		res.json(json1);
+module.exports = function(offset){
+	var deferred = Q.defer();
+	
+	var url = 'http://polaris.i3l.gatech.edu:8080/gt-fhir-webapp/base?_getpages=4d9c3635-373a-472b-8a9a-3cb14c90efec&_getpagesoffset='+offset+'&_count=50&_format=json&_pretty=true';
+	rp(url).then(function(res){
+		var json = JSON.parse(res);
+		// console.log(json1);
+		deferred.resolve(json);
+	})
+	.catch(function(err){
+		console.log(err);
 	});
+	return deferred.promise;
 };
